@@ -1,9 +1,0 @@
-fastapi
-uvicorn
-sqlalchemy
-google-adk
-pgvector
-langgraph
-langsmith
-langchain_community
-psycopg2-binary
