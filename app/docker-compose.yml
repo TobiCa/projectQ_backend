@@ -1,0 +1,43 @@
+services:
+  app:
+    build: .
+    container_name: projectq_app
+    stdin_open: true
+    tty: true
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/root/app
+  
+  db:
+    build:
+      context: ./postgres
+      dockerfile: postgres.Dockerfile
+    container_name: projectq_pgvector
+    restart: always
+    environment:
+      POSTGRES_SERVER: db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: basicpassword
+      POSTGRES_DATABASE: postgres
+    ports:
+      - "5432:5432"
+
+  
+  pdgadmin4:
+    image: dpage/pgadmin4
+    container_name: projectq_pgadmin4
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@domain-name.com
+      PGADMIN_DEFAULT_PASSWORD: basicpassword
+    restart: always
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pgadmin_data:
